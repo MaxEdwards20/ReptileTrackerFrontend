@@ -1,14 +1,14 @@
-import { List, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Container, Typography } from "@mui/material";
+import React, { FC } from "react";
 
-export const WelcomePage = () => {
+export const WelcomePage: FC = () => {
   return (
-    <Stack paddingY="2rem">
+    <Container maxWidth="md">
       <Typography>Welcome to Reptile Tracker!</Typography>
       <Typography>
         Reptile Tracker helps you keep track of your reptiles
       </Typography>
-    </Stack>
+    </Container>
   );
 };
 
