@@ -22,8 +22,8 @@ export const CreateAccount: FC = () => {
 
   const handleSubmit = () => {
     setError(undefined);
-    if (!email || !password) {
-      setError("Please enter an email and password");
+    if (!(email && password && firstName && lastName)) {
+      setError("Please enter all fields");
       return;
     }
     if (email.indexOf("@") === -1) {
@@ -31,6 +31,7 @@ export const CreateAccount: FC = () => {
       return;
     }
 
+    // This can be moved to an API file when Ditton pushes his code up. I am getting CORS error trying to use this
     const createAccount = async () => {
       const res = await fetch("http://localhost:3000/user", {
         method: "POST",
