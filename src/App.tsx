@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { HeaderNav } from "./components/HeaderNav";
+import CreateAccount from "./pages/CreateAccount";
 import ProfilePage from "./pages/ProfilePage";
 import SchedulesPage from "./pages/SchedulesPage";
 import SignIn from "./pages/SignIn";
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
       { path: "/sign-in", element: <SignIn /> },
       { path: "schedules", element: <SchedulesPage /> },
       { path: "profile", element: <ProfilePage /> },
+      { path: "create-account", element: <CreateAccount /> },
     ],
   },
 ]);
