@@ -1,3 +1,4 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Alert,
   Button,
@@ -5,15 +6,16 @@ import {
   CardContent,
   Container,
   Divider,
+  IconButton,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { FC, useState } from "react";
-import { redirect } from "react-router-dom";
-import SignIn from "./SignIn";
+import { useNavigate } from "react-router-dom";
 
 export const CreateAccount: FC = () => {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -42,17 +44,29 @@ export const CreateAccount: FC = () => {
     };
     let res = createAccount();
     console.log(res);
-    return redirect("/home");
+    return navigate("/home");
   };
+
+  const switchToLogin = () => navigate("/sign-in");
 
   return (
     <Container maxWidth="sm">
       <Card>
         <CardContent>
           <Stack gap="2rem" paddingX="1rem">
-            <Typography variant="h4" textAlign="center">
-              Create Your Account
-            </Typography>
+            <Stack direction="row">
+              <IconButton>
+                <ArrowBackIcon onClick={switchToLogin} />
+              </IconButton>
+              <Typography
+                variant="h4"
+                textAlign="center"
+                width="100%"
+                sx={{ mr: "2rem" }}
+              >
+                Create Your Account
+              </Typography>
+            </Stack>
             <TextField
               label="First Name"
               value={firstName}
