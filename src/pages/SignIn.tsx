@@ -10,8 +10,10 @@ import {
   Typography,
 } from "@mui/material";
 import React, { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const SignIn: FC = () => {
+  const navigation = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>();
@@ -27,6 +29,8 @@ export const SignIn: FC = () => {
       return;
     }
   };
+
+  const navCreateAccount = () => navigation("/create-account");
 
   return (
     <Container maxWidth="sm">
@@ -57,16 +61,10 @@ export const SignIn: FC = () => {
             >
               Sign In
             </Button>
-
-            <Stack direction="row" gap="1rem" justifyContent="center">
-              <Button variant="text" size="small" onClick={() => {}}>
-                Forgot Password
-              </Button>
-              <Divider orientation="vertical" flexItem />
-              <Button variant="text" size="small" onClick={() => {}}>
-                Create Account
-              </Button>
-            </Stack>
+            <Divider />
+            <Button variant="text" size="small" onClick={navCreateAccount}>
+              Create Account
+            </Button>
           </Stack>
         </CardContent>
       </Card>
