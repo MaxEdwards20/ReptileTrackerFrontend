@@ -8,10 +8,11 @@ function findIndex(path: string) {
   return index;
 }
 
-type TabPaths = "/" | "/schedules" | "/profile" | "/reptiles";
+type TabPaths = "/" | "/dashboard" | "/schedules" | "/profile" | "/reptiles";
 
 const tabPathInfo: Record<TabPaths, string> = {
-  "/": "Dashboard",
+  "/": "Home",
+  "/dashboard": "Dashboard",
   "/profile": "Profile",
   "/schedules": "Schedules",
   "/reptiles": "Reptiles",

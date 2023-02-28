@@ -4,7 +4,7 @@ import { RouterProviderProps } from "react-router-dom";
 export const SchedulesPage: FC = () => {
   return (
     <Container maxWidth="md">
-      <div>Schedules</div>
+      <h1>Schedules</h1>
     </Container>
   );
 };

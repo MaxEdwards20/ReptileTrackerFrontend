@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 export const ProfilePage: FC = () => {
   return (
     <Container maxWidth="md">
-      <div>Profile</div>
+      <h1>Profile</h1>
     </Container>
   );
 };
