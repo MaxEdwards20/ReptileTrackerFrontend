@@ -44,7 +44,7 @@ export const CreateAccount: FC = () => {
     };
     let res = createAccount();
     console.log(res);
-    return navigate("/home");
+    return navigate("/profile");
   };
 
   const switchToLogin = () => navigate("/sign-in");

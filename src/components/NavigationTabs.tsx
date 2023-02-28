@@ -8,12 +8,13 @@ function findIndex(path: string) {
   return index;
 }
 
-type TabPaths = "/" | "/schedules" | "/profile";
+type TabPaths = "/" | "/schedules" | "/profile" | "/reptiles";
 
 const tabPathInfo: Record<TabPaths, string> = {
   "/": "Dashboard",
   "/profile": "Profile",
   "/schedules": "Schedules",
+  "/reptiles": "Reptiles",
 };
 
 export const NavigationTabs: FC = () => {
