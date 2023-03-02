@@ -1,7 +1,6 @@
 import { Tab, Tabs } from "@mui/material";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
 import { TabPaths } from "./HeaderNav";
 
 type NavigationTabs = {
@@ -14,8 +13,8 @@ export const NavigationTabs: FC<NavigationTabs> = (props) => {
   const navigation = useNavigate();
 
   function findIndex(path: string) {
-    const index = Object.keys(tabInfo).indexOf(path);
-    if (index === -1) return 0;
+    const index = Object.keys(tabInfo).indexOf(path.slice(1));
+    if (index === -1) return false;
     return index;
   }
 

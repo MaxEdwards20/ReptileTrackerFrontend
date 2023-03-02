@@ -31,12 +31,14 @@ export const SignIn: FC = () => {
       setError("Please enter a valid email");
       return;
     }
+
     signIn({ email, password }).then((user) => {
       if (!user) {
         setError("An error occurred");
         return;
       }
       setUser(user);
+      navigation("/home");
     });
   };
 

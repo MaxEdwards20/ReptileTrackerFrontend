@@ -38,7 +38,7 @@ export const HeaderNav: FC<{ auth?: boolean }> = ({ auth = false }) => {
         gap="2rem"
       >
         <NavigationTabs tabInfo={auth ? authTabInfo : unAuthTabInfo} />
-        <UserIcon />
+        <UserIcon auth={auth} />
       </Stack>
       <Typography variant="h2" textAlign="center" paddingBottom="6rem">
         Reptile Tracker

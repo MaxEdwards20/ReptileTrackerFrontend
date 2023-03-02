@@ -1,17 +1,16 @@
 import { RouterProvider } from "react-router-dom";
-import { useState } from "react";
-import { User } from "./api/models";
 import { AuthContext } from "./context/AuthContext";
 import { authRouter, unAuthRouter } from "./utils/routes";
 import { UnAuthContext } from "./context/UnAuthContext";
+import { useUserInfo } from "./utils/hooks";
 
 function App() {
-  const [user, setUser] = useState<User>();
+  const { user, setUser, logout } = useUserInfo();
 
   return (
     <>
       {user ? (
-        <AuthContext.Provider value={{ user, setUser }}>
+        <AuthContext.Provider value={{ user, setUser, logout }}>
           <RouterProvider router={authRouter} />
         </AuthContext.Provider>
       ) : (

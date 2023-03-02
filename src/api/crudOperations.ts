@@ -1,7 +1,10 @@
+import { getToken } from "../utils/miscFunctions";
+
 const baseUrl = "http://localhost:3000";
 
 const headers = {
   "Content-Type": "application/json",
+  Authorization: `Bearer ${getToken()}`,
 };
 
 export function postReq(body: any, path: string) {
