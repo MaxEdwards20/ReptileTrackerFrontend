@@ -9,10 +9,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { signIn } from "../api/apiFunctions";
+import { UnAuthContext } from "../context/UnAuthContext";
 
 export const SignIn: FC = () => {
+  const { setUser } = useContext(UnAuthContext);
   const navigation = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -28,6 +31,13 @@ export const SignIn: FC = () => {
       setError("Please enter a valid email");
       return;
     }
+    signIn({ email, password }).then((user) => {
+      if (!user) {
+        setError("An error occurred");
+        return;
+      }
+      setUser(user);
+    });
   };
 
   const navCreateAccount = () => navigation("/create-account");

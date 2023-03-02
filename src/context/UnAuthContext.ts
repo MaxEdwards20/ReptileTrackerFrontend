@@ -1,7 +1,6 @@
 import { createContext } from "react";
 import { User } from "../api/models";
 
-export const AuthContext = createContext({
-  user: {} as User,
+export const UnAuthContext = createContext({
   setUser: (user: User) => {},
 });

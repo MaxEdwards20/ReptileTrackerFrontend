@@ -4,7 +4,30 @@ import { Outlet } from "react-router-dom";
 import { NavigationTabs } from "./NavigationTabs";
 import { UserIcon } from "./UserIcon";
 
-export const HeaderNav: FC = () => {
+type TopNavBarProps = {
+  authenticated?: boolean;
+};
+
+export type TabPaths =
+  | "home"
+  | "dashboard"
+  | "schedules"
+  | "profile"
+  | "reptiles";
+
+const authTabInfo: Partial<Record<TabPaths, string>> = {
+  home: "Home",
+  dashboard: "Dashboard",
+  profile: "Profile",
+  schedules: "Schedules",
+  reptiles: "Reptiles",
+};
+
+const unAuthTabInfo: Partial<Record<TabPaths, string>> = {
+  home: "Home",
+};
+
+export const HeaderNav: FC<{ auth?: boolean }> = ({ auth = false }) => {
   return (
     <>
       <Stack
@@ -14,7 +37,7 @@ export const HeaderNav: FC = () => {
         alignItems="center"
         gap="2rem"
       >
-        <NavigationTabs />
+        <NavigationTabs tabInfo={auth ? authTabInfo : unAuthTabInfo} />
         <UserIcon />
       </Stack>
       <Typography variant="h2" textAlign="center" paddingBottom="6rem">

@@ -1,32 +1,26 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HeaderNav from "./components/HeaderNav";
-import CreateAccount from "./pages/CreateAccount";
-import ProfilePage from "./pages/ProfilePage";
-import SchedulesPage from "./pages/SchedulesPage";
-import SignIn from "./pages/SignIn";
-import HomePage from "./pages/HomePage";
-import { DashboardPage } from "./pages/DashboardPage";
-import { ReptilePage } from "./pages/ReptilePage";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HeaderNav />,
-    children: [
-      { path: "", element: <HomePage /> },
-      { path: "home", element: <HomePage /> },
-      { path: "sign-in", element: <SignIn /> },
-      { path: "schedules", element: <SchedulesPage /> },
-      { path: "profile", element: <ProfilePage /> },
-      { path: "dashboard", element: <DashboardPage /> },
-      { path: "reptiles", element: <ReptilePage /> },
-      { path: "create-account", element: <CreateAccount /> },
-    ],
-  },
-]);
+import { RouterProvider } from "react-router-dom";
+import { useState } from "react";
+import { User } from "./api/models";
+import { AuthContext } from "./context/AuthContext";
+import { authRouter, unAuthRouter } from "./utils/routes";
+import { UnAuthContext } from "./context/UnAuthContext";
 
 function App() {
-  return <RouterProvider router={router} />;
+  const [user, setUser] = useState<User>();
+
+  return (
+    <>
+      {user ? (
+        <AuthContext.Provider value={{ user, setUser }}>
+          <RouterProvider router={authRouter} />
+        </AuthContext.Provider>
+      ) : (
+        <UnAuthContext.Provider value={{ setUser }}>
+          <RouterProvider router={unAuthRouter} />
+        </UnAuthContext.Provider>
+      )}
+    </>
+  );
 }
 
 export default App;
