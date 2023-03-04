@@ -11,11 +11,10 @@ import {
 } from "@mui/material";
 import React, { FC, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signIn } from "../api/apiFunctions";
 import { UnAuthContext } from "../context/UnAuthContext";
 
 export const SignIn: FC = () => {
-  const { setUser } = useContext(UnAuthContext);
+  const { setUser, api } = useContext(UnAuthContext);
   const navigation = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -32,7 +31,7 @@ export const SignIn: FC = () => {
       return;
     }
 
-    signIn({ email, password }).then((user) => {
+    api.signIn({ email, password }).then((user) => {
       if (!user) {
         setError("An error occurred");
         return;
@@ -45,7 +44,7 @@ export const SignIn: FC = () => {
   const navCreateAccount = () => navigation("/create-account");
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" sx={{ pt: 8 }}>
       <Card>
         <CardContent>
           <Stack gap="2rem" paddingX="1rem">

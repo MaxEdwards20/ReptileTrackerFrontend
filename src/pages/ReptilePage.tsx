@@ -1,21 +1,23 @@
 import { Container } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getReptile } from "../api/apiFunctions";
 import { Reptile } from "../api/models";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { HeaderTitle } from "../components/HeaderTitle";
 import { Spinner } from "../components/Spinner";
+import { AuthContext } from "../context/AuthContext";
 
 export const ReptilePage: FC = () => {
   const { id: reptileId } = useParams();
+  const { api } = useContext(AuthContext);
   if (!reptileId) return <ErrorMessage title="Error fetching reptile" />;
 
   const [reptile, setReptile] = useState<Reptile | null>();
 
   const fetchReptile = () => {
     setReptile(undefined);
-    getReptile(parseInt(reptileId))
+    api
+      .getReptile(parseInt(reptileId))
       .then(setReptile)
       .catch(() => setReptile(null));
   };

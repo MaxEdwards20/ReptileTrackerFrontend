@@ -5,16 +5,16 @@ import { UnAuthContext } from "./context/UnAuthContext";
 import { useUserInfo } from "./utils/hooks";
 
 function App() {
-  const { user, setUser, logout } = useUserInfo();
+  const { user, setUser, logout, api } = useUserInfo();
 
   return (
     <>
       {user ? (
-        <AuthContext.Provider value={{ user, setUser, logout }}>
+        <AuthContext.Provider value={{ user, setUser, logout, api }}>
           <RouterProvider router={authRouter} />
         </AuthContext.Provider>
       ) : (
-        <UnAuthContext.Provider value={{ setUser }}>
+        <UnAuthContext.Provider value={{ setUser, api }}>
           <RouterProvider router={unAuthRouter} />
         </UnAuthContext.Provider>
       )}

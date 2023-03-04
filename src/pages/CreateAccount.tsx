@@ -13,11 +13,10 @@ import {
 } from "@mui/material";
 import React, { FC, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createAccount } from "../api/apiFunctions";
 import { UnAuthContext } from "../context/UnAuthContext";
 
 export const CreateAccount: FC = () => {
-  const { setUser } = useContext(UnAuthContext);
+  const { setUser, api } = useContext(UnAuthContext);
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -36,7 +35,7 @@ export const CreateAccount: FC = () => {
       return;
     }
 
-    createAccount({ email, password, firstName, lastName }).then((user) => {
+    api.createAccount({ email, password, firstName, lastName }).then((user) => {
       if (!user) {
         setError("Invalid email or password");
         return;

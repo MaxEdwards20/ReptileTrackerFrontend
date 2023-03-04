@@ -1,7 +1,7 @@
 import { Button, Grid } from "@mui/material";
-import { useState, useEffect } from "react";
-import { getReptiles } from "../api/apiFunctions";
+import { useState, useEffect, useContext } from "react";
 import { Reptile } from "../api/models";
+import { AuthContext } from "../context/AuthContext";
 import { CreateReptile } from "./CreateReptile";
 import { ErrorMessage } from "./ErrorMessage";
 import { HeaderTitle } from "./HeaderTitle";
@@ -10,10 +10,12 @@ import { Spinner } from "./Spinner";
 
 export const ReptileList = () => {
   const [reptiles, setReptiles] = useState<Reptile[] | null>();
+  const { api } = useContext(AuthContext);
 
   const fetchReptiles = () => {
     setReptiles(undefined);
-    getReptiles()
+    api
+      .getReptiles()
       .then((reptiles) => {
         setReptiles(reptiles);
       })
@@ -35,8 +37,8 @@ export const ReptileList = () => {
 
       <Grid container spacing={4} paddingTop={8}>
         {reptiles.map((reptile) => (
-          <Grid item>
-            <ReptileCard key={reptile.id} reptile={reptile} />
+          <Grid item key={reptile.id}>
+            <ReptileCard reptile={reptile} />
           </Grid>
         ))}
       </Grid>

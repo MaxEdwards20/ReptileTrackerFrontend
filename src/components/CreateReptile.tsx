@@ -14,9 +14,9 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { FC, useState } from "react";
-import { createReptile } from "../api/apiFunctions";
+import { FC, useContext, useState } from "react";
 import { SexType, SpeciesType } from "../api/apiTypes";
+import { AuthContext } from "../context/AuthContext";
 
 type CreateReptileProps = {
   refreshReptileList: () => void;
@@ -24,6 +24,7 @@ type CreateReptileProps = {
 
 export const CreateReptile: FC<CreateReptileProps> = (props) => {
   const { refreshReptileList } = props;
+  const { api } = useContext(AuthContext);
 
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
@@ -48,7 +49,7 @@ export const CreateReptile: FC<CreateReptileProps> = (props) => {
     if (!name || !species || !sex) {
       return setError("Please fill out all fields");
     }
-    createReptile({ name, species, sex }).then(() => {
+    api.createReptile({ name, species, sex }).then(() => {
       refreshReptileList();
       handleClose();
     });
