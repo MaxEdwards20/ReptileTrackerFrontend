@@ -1,10 +1,13 @@
 import { Container } from "@mui/material";
 import { FC } from "react";
+import { HeaderTitle } from "../components/HeaderTitle";
+import ReptileList from "../components/ReptileList";
 
 export const DashboardPage: FC = () => {
   return (
     <Container maxWidth="md">
-      <h1>Dashboard</h1>
+      <HeaderTitle title="Dashboard" />
+      <ReptileList />
     </Container>
   );
 };
