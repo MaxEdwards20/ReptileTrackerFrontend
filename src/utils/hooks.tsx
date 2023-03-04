@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUser } from "../api/apiFunctions";
 import { User } from "../api/models";
-import { removeToken } from "./miscFunctions";
+import { getToken, removeToken } from "./miscFunctions";
 
 type UserInfo = () => {
   user: User | undefined;
@@ -18,6 +18,7 @@ export const useUserInfo: UserInfo = () => {
 
   useEffect(() => {
     if (user) return;
+    if (!getToken()) return;
     getUser().then((user) => {
       if (!user) return;
       setUser(user);

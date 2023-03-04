@@ -1,12 +1,8 @@
 import { Stack, Typography } from "@mui/material";
-import React, { FC } from "react";
-import { Outlet } from "react-router-dom";
+import React, { FC, useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { NavigationTabs } from "./NavigationTabs";
 import { UserIcon } from "./UserIcon";
-
-type TopNavBarProps = {
-  authenticated?: boolean;
-};
 
 export type TabPaths =
   | "home"
@@ -16,18 +12,20 @@ export type TabPaths =
   | "reptiles";
 
 const authTabInfo: Partial<Record<TabPaths, string>> = {
-  home: "Home",
   dashboard: "Dashboard",
-  profile: "Profile",
   schedules: "Schedules",
   reptiles: "Reptiles",
-};
-
-const unAuthTabInfo: Partial<Record<TabPaths, string>> = {
-  home: "Home",
+  profile: "Profile",
 };
 
 export const HeaderNav: FC<{ auth?: boolean }> = ({ auth = false }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    location.pathname === "/" && navigate("/home");
+  }, []);
+
   return (
     <>
       <Stack
@@ -37,13 +35,12 @@ export const HeaderNav: FC<{ auth?: boolean }> = ({ auth = false }) => {
         alignItems="center"
         gap="2rem"
       >
-        <NavigationTabs tabInfo={auth ? authTabInfo : unAuthTabInfo} />
+        {auth && <NavigationTabs tabInfo={authTabInfo} />}
         <UserIcon auth={auth} />
       </Stack>
       <Typography variant="h2" textAlign="center" paddingBottom="6rem">
         Reptile Tracker
       </Typography>
-
       <Outlet />
     </>
   );

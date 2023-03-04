@@ -1,14 +1,53 @@
-import { Container, Typography } from "@mui/material";
+import {
+  Button,
+  Link,
+  Container,
+  Divider,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const HomePage: FC = () => {
+  const navigate = useNavigate();
   return (
     <Container maxWidth="md">
-      <Typography>Welcome to Reptile Tracker!</Typography>
+      <Typography variant="h5">What is Reptile Tracker?</Typography>
+      <Divider sx={{ my: 2 }} />
       <Typography>
-        Reptile Tracker helps you keep track of your reptiles so that you can
-        focus on feeding thema nd getting new ones.
+        Reptile Tracker is an application that can help you:
       </Typography>
+
+      <Stack padding={2} gap={1}>
+        <Typography>- Keep track of your reptiles</Typography>
+        <Typography>
+          - Create schedules to help you easily care for your reptiles
+        </Typography>
+        <Typography>- Keep records of your reptiles' health</Typography>
+      </Stack>
+
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        paddingTop="4rem"
+        gap={4}
+      >
+        <Button
+          variant="contained"
+          sx={{ width: "12rem" }}
+          onClick={() => navigate("/sign-in")}
+        >
+          Sign In
+        </Button>
+        <Link
+          component="button"
+          variant="body2"
+          onClick={() => navigate("/create-account")}
+        >
+          Don't have an account?
+        </Link>
+      </Stack>
     </Container>
   );
 };

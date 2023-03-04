@@ -38,7 +38,7 @@ export const SignIn: FC = () => {
         return;
       }
       setUser(user);
-      navigation("/home");
+      navigation("/");
     });
   };
 

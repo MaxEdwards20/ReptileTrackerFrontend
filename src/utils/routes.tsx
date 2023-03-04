@@ -29,19 +29,20 @@ const pathPageMap: Record<RoutePath, JSX.Element> = {
 
 export const unAuthRoutes: RoutePath[] = ["home", "sign-in", "create-account"];
 export const authRoutes: RoutePath[] = [
-  ...unAuthRoutes,
   "schedules",
-  "profile",
   "dashboard",
   "reptiles",
+  "profile",
 ];
 
 export const authRouter = createBrowserRouter([
   {
     path: "/",
     element: <HeaderNav auth={true} />,
-    errorElement: <Navigate to="home" replace />,
-    children: [...generateRouteObjects(authRoutes)],
+    children: [
+      ...generateRouteObjects(authRoutes),
+      { path: "*", element: <Navigate to="dashboard" replace /> },
+    ],
   },
 ]);
 
@@ -49,8 +50,10 @@ export const unAuthRouter = createBrowserRouter([
   {
     path: "/",
     element: <HeaderNav />,
-    errorElement: <Navigate to="home" replace />,
-    children: [...generateRouteObjects(unAuthRoutes)],
+    children: [
+      ...generateRouteObjects(unAuthRoutes),
+      { path: "*", element: <Navigate to="home" replace /> },
+    ],
   },
 ]);
 

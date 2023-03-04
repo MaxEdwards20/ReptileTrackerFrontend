@@ -3,7 +3,7 @@ import { FC } from "react";
 
 export const ReptilePage: FC = () => {
   return (
-    <Container>
+    <Container maxWidth="md">
       <h1>All Reptiles Here</h1>
     </Container>
   );
