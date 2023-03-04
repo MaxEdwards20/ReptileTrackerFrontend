@@ -1,10 +1,11 @@
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import { getReptiles } from "../api/apiFunctions";
 import { Reptile } from "../api/models";
 import { CreateReptile } from "./CreateReptile";
 import { ErrorMessage } from "./ErrorMessage";
 import { HeaderTitle } from "./HeaderTitle";
+import ReptileCard from "./ReptileCard";
 import { Spinner } from "./Spinner";
 
 export const ReptileList = () => {
@@ -32,12 +33,13 @@ export const ReptileList = () => {
         <CreateReptile refreshReptileList={fetchReptiles} />
       </HeaderTitle>
 
-      {reptiles.map((reptile) => (
-        <div key={reptile.id}>
-          <h2>{reptile.name}</h2>
-          <p>{reptile.species}</p>
-        </div>
-      ))}
+      <Grid container spacing={4} paddingTop={8}>
+        {reptiles.map((reptile) => (
+          <Grid item>
+            <ReptileCard key={reptile.id} reptile={reptile} />
+          </Grid>
+        ))}
+      </Grid>
     </>
   );
 };

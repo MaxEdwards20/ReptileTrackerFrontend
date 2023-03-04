@@ -31,3 +31,7 @@ export function getReptiles(): Promise<Reptile[]> {
 export function createReptile(rep: CreateReptileBody): Promise<Reptile> {
   return postReq(rep, "reptiles").then((res) => res.reptile);
 }
+
+export function getReptile(reptileId: number): Promise<Reptile> {
+  return getReq(`reptiles/${reptileId}`).then((res) => res.reptile);
+}

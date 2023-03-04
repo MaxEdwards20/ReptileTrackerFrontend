@@ -10,12 +10,15 @@ export const ErrorMessage: FC<ErrorMessageProps> = (props) => {
 
   return (
     <Box
-      textAlign="center"
+      display="flex"
+      justifyContent="center"
       width="100%"
       paddingY={paddingY ?? "3rem"}
       {...rest}
     >
-      <Alert severity="error">{message}</Alert>
+      <Alert severity="error" sx={{ width: "50%", justifySelf: "center" }}>
+        {message}
+      </Alert>
     </Box>
   );
 };

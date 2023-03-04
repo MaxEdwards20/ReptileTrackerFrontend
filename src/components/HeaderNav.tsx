@@ -14,7 +14,6 @@ export type TabPaths =
 const authTabInfo: Partial<Record<TabPaths, string>> = {
   dashboard: "Dashboard",
   schedules: "Schedules",
-  reptiles: "Reptiles",
   profile: "Profile",
 };
 

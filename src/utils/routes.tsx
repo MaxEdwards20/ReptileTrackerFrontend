@@ -13,7 +13,7 @@ type RoutePath =
   | "dashboard"
   | "schedules"
   | "profile"
-  | "reptiles"
+  | "reptile/:id"
   | "sign-in"
   | "create-account";
 
@@ -22,7 +22,7 @@ const pathPageMap: Record<RoutePath, JSX.Element> = {
   dashboard: <DashboardPage />,
   schedules: <SchedulesPage />,
   profile: <ProfilePage />,
-  reptiles: <ReptilePage />,
+  "reptile/:id": <ReptilePage />,
   "sign-in": <SignIn />,
   "create-account": <CreateAccount />,
 };
@@ -31,7 +31,7 @@ export const unAuthRoutes: RoutePath[] = ["home", "sign-in", "create-account"];
 export const authRoutes: RoutePath[] = [
   "schedules",
   "dashboard",
-  "reptiles",
+  "reptile/:id",
   "profile",
 ];
 
