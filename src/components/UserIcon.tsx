@@ -1,10 +1,12 @@
-import Rect, { FC, useState } from "react";
+import Rect, { FC, useContext, useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Button, IconButton, Popover, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
-export const UserIcon: FC = () => {
+export const UserIcon: FC<{ auth?: boolean }> = ({ auth = false }) => {
   const navigation = useNavigate();
+  const { logout } = useContext(AuthContext);
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -39,12 +41,20 @@ export const UserIcon: FC = () => {
         }}
       >
         <Stack>
-          <Button sx={{ p: 2 }} variant="text" onClick={navigateToLogin}>
-            Sign In
-          </Button>
-          <Button sx={{ p: 2 }} variant="text" onClick={navigateToSignup}>
-            Create Account
-          </Button>
+          {auth ? (
+            <Button sx={{ p: 2 }} variant="text" onClick={logout}>
+              Sign Out
+            </Button>
+          ) : (
+            <>
+              <Button sx={{ p: 2 }} variant="text" onClick={navigateToLogin}>
+                Sign In
+              </Button>
+              <Button sx={{ p: 2 }} variant="text" onClick={navigateToSignup}>
+                Create Account
+              </Button>
+            </>
+          )}
         </Stack>
       </Popover>
     </>

@@ -1,31 +1,26 @@
 import { Tab, Tabs } from "@mui/material";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { TabPaths } from "./HeaderNav";
 
-function findIndex(path: string) {
-  const index = Object.keys(tabPathInfo).indexOf(path);
-  if (index === -1) return 0;
-  return index;
-}
-
-type TabPaths = "/" | "/dashboard" | "/schedules" | "/profile" | "/reptiles";
-
-const tabPathInfo: Record<TabPaths, string> = {
-  "/": "Home",
-  "/dashboard": "Dashboard",
-  "/profile": "Profile",
-  "/schedules": "Schedules",
-  "/reptiles": "Reptiles",
+type NavigationTabs = {
+  tabInfo: Partial<Record<TabPaths, string>>;
 };
-
-export const NavigationTabs: FC = () => {
+export const NavigationTabs: FC<NavigationTabs> = (props) => {
+  const { tabInfo } = props;
   const location = useLocation();
   const [selectedTab, setSelectedTab] = useState(findIndex(location.pathname));
   const navigation = useNavigate();
 
+  function findIndex(path: string) {
+    const index = Object.keys(tabInfo).indexOf(path.slice(1));
+    if (index === -1) return false;
+    return index;
+  }
+
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
-    const paths = Object.keys(tabPathInfo) as TabPaths[];
-    navigation(paths[newValue]);
+    const paths = Object.keys(tabInfo) as TabPaths[];
+    navigation(`/${paths[newValue]}`);
   };
 
   useEffect(() => {
@@ -35,8 +30,8 @@ export const NavigationTabs: FC = () => {
   return (
     <div>
       <Tabs value={selectedTab} onChange={handleChange} scrollButtons="auto">
-        {Object.keys(tabPathInfo).map((path) => (
-          <Tab key={path} label={tabPathInfo[path as TabPaths]} />
+        {Object.keys(tabInfo).map((path) => (
+          <Tab key={path} label={tabInfo[path as TabPaths]} />
         ))}
       </Tabs>
     </div>

@@ -11,10 +11,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UnAuthContext } from "../context/UnAuthContext";
 
 export const CreateAccount: FC = () => {
+  const { setUser, api } = useContext(UnAuthContext);
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -33,18 +35,13 @@ export const CreateAccount: FC = () => {
       return;
     }
 
-    // This can be moved to an API file when Ditton pushes his code up. I am getting CORS error trying to use this
-    const createAccount = async () => {
-      const res = await fetch("http://localhost:3000/user", {
-        method: "POST",
-        body: JSON.stringify({ email, password, firstName, lastName }),
-      });
-      const data = await res.json();
-      return data;
-    };
-    let res = createAccount();
-    console.log(res);
-    return navigate("/profile");
+    api.createAccount({ email, password, firstName, lastName }).then((user) => {
+      if (!user) {
+        setError("Invalid email or password");
+        return;
+      }
+      setUser(user);
+    });
   };
 
   const switchToLogin = () => navigate("/sign-in");
