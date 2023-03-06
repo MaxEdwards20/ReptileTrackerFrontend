@@ -1,4 +1,4 @@
-import { getToken, setToken } from "../utils/miscFunctions";
+import { getToken, setTokenToLocalStorage } from "../utils/miscFunctions";
 import { CreateReptileBody, CreateUserBody, LoginBody } from "./apiTypes";
 import { Reptile, User } from "./models";
 
@@ -54,7 +54,7 @@ export class Api {
   setToken(token: string) {
     if (!token) return;
     this.token = token;
-    setToken(token);
+    setTokenToLocalStorage(token);
   }
 
   createAccount(body: CreateUserBody): Promise<User> {
