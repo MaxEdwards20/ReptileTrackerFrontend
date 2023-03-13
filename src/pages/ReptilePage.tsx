@@ -1,12 +1,15 @@
+import AddIcon from "@mui/icons-material/Add";
 import UndoIcon from "@mui/icons-material/Undo";
 import CheckIcon from "@mui/icons-material/Check";
 import EditIcon from "@mui/icons-material/Edit";
 import {
+  Button,
   Container,
   IconButton,
   Stack,
   TextField,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { FC, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -100,6 +103,26 @@ export const ReptilePage: FC = () => {
           </IconButton>
         </HeaderTitle>
       )}
+      <HeaderTitle title="Feedings" secondary>
+        <IconButton>
+          <AddIcon />
+        </IconButton>
+      </HeaderTitle>
+      <Typography>feedings:</Typography>
+
+      <HeaderTitle title="Husbandry Records" secondary>
+        <IconButton>
+          <AddIcon />
+        </IconButton>
+      </HeaderTitle>
+      <Typography>husbandry records:</Typography>
+
+      <HeaderTitle title="Schedules" secondary>
+        <IconButton>
+          <AddIcon />
+        </IconButton>
+      </HeaderTitle>
+      <Typography>schedules:</Typography>
     </Container>
   );
 };

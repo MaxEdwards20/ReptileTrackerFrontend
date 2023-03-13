@@ -21,7 +21,12 @@ export const HeaderTitle: FC<HeaderTitleProps> = (props) => {
         {displayComponent ? (
           <>{displayComponent}</>
         ) : (
-          <Typography variant={secondary ? "h4" : "h3"}>{title}</Typography>
+          <Typography
+            variant={secondary ? "h4" : "h3"}
+            sx={{ mb: secondary ? "2rem" : undefined }}
+          >
+            {title}
+          </Typography>
         )}
         {children}
       </Stack>
