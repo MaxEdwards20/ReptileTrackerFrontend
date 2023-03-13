@@ -1,4 +1,13 @@
-import { Container, IconButton, TextField } from "@mui/material";
+import UndoIcon from "@mui/icons-material/Undo";
+import CheckIcon from "@mui/icons-material/Check";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  Container,
+  IconButton,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { FC, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Reptile } from "../api/models";
@@ -14,6 +23,7 @@ export const ReptilePage: FC = () => {
 
   const [reptile, setReptile] = useState<Reptile | null>();
   const [editedReptile, setEditedReptile] = useState<Reptile>();
+  const [editingName, setEditingName] = useState(false);
 
   const fetchReptile = () => {
     setReptile(undefined);
@@ -33,6 +43,20 @@ export const ReptilePage: FC = () => {
     setEditedReptile({ ...reptile, [field as keyof Reptile]: value });
   }
 
+  const save = () => {
+    if (!editedReptile) return;
+    api
+      .updateReptile(reptileId, {
+        name: editedReptile.name,
+        sex: editedReptile.sex,
+        species: editedReptile.species,
+      })
+      .then(() => {
+        setReptile(editedReptile);
+        setEditingName(false);
+      });
+  };
+
   useEffect(() => {
     fetchReptile();
   }, [reptileId]);
@@ -42,11 +66,40 @@ export const ReptilePage: FC = () => {
 
   return (
     <Container maxWidth="md">
-      <HeaderTitle title={reptile.name}>
-        <IconButton>
-          
-        </IconButton>
-      </HeaderTitle>
+      {editingName ? (
+        <>
+          <HeaderTitle
+            displayComponent={
+              <Stack direction="row" alignItems="center" gap={2} width="100%">
+                <TextField
+                  fullWidth
+                  label="Name"
+                  value={editedReptile?.name}
+                  onChange={(e) => editReptile("name", e.target.value)}
+                />
+                <div>
+                  <Tooltip title="Save">
+                    <IconButton onClick={save}>
+                      <CheckIcon />
+                    </IconButton>
+                  </Tooltip>
+                </div>
+                <div>
+                  <IconButton onClick={() => setEditingName(false)}>
+                    <UndoIcon />
+                  </IconButton>
+                </div>
+              </Stack>
+            }
+          />
+        </>
+      ) : (
+        <HeaderTitle title={reptile.name}>
+          <IconButton onClick={() => setEditingName(true)}>
+            <EditIcon />
+          </IconButton>
+        </HeaderTitle>
+      )}
     </Container>
   );
 };

@@ -1,5 +1,10 @@
 import { getToken, setTokenToLocalStorage } from "../utils/miscFunctions";
-import { CreateReptileBody, CreateUserBody, LoginBody } from "./apiTypes";
+import {
+  CreateReptileBody,
+  CreateUserBody,
+  LoginBody,
+  UpdateReptileBody,
+} from "./apiTypes";
 import { Reptile, User } from "./models";
 
 type Method = "get" | "post" | "put" | "del";
@@ -83,6 +88,9 @@ export class Api {
 
   createReptile(rep: CreateReptileBody): Promise<Reptile> {
     return this.post("reptiles", rep).then((res) => res.reptile);
+  }
+  updateReptile(reptileId: string, rep: UpdateReptileBody): Promise<Reptile> {
+    return this.put(`reptiles/${reptileId}`, rep).then((res) => res.reptiles);
   }
   getReptile(reptileId: number): Promise<Reptile> {
     return this.get(`reptiles/${reptileId}`).then((res) => res.reptile);
