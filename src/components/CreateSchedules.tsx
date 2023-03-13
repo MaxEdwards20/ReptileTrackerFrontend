@@ -34,7 +34,7 @@ const initialSchedule: CreateScheduleBody = {
 export const CreateSchedule = (props: CreateScheduleProps) => {
   const { refreshScheduleList } = props;
   const [schedule, setSchedule] = useState<CreateScheduleBody>(initialSchedule);
-  const [reptileID, setReptileID] = useState(0);
+  const [reptileID, setReptileID] = useState("");
   const [reptiles, setReptiles] = useState<Reptile[]>([]);
   const { api } = useContext(AuthContext);
 
@@ -54,7 +54,7 @@ export const CreateSchedule = (props: CreateScheduleProps) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    api.createSchedule(schedule, reptileID).then(() => {
+    api.createSchedule(schedule, parseInt(reptileID)).then(() => {
       refreshScheduleList();
       handleClose();
     });
@@ -73,15 +73,19 @@ export const CreateSchedule = (props: CreateScheduleProps) => {
 
   const reptileOptionSelection = () => {
     const reptileOptions = reptiles.map((reptile) => {
-      return <MenuItem value={reptile.id}>{reptile.name}</MenuItem>;
+      return (
+        <MenuItem key={reptile.id} value={reptile.id}>
+          {reptile.name}
+        </MenuItem>
+      );
     });
     return (
       <FormControl>
         <InputLabel>Reptile</InputLabel>
         <Select
-          value={reptileID}
+          value={reptileID.toString()}
           onChange={(e) => {
-            setReptileID(parseInt(e.target.value as string));
+            setReptileID(e.target.value as string);
           }}
         >
           {reptileOptions}
