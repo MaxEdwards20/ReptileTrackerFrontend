@@ -8,6 +8,7 @@ import {
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Reptile } from "../api/models";
+import { readableSpecies } from "../utils/miscFunctions";
 
 interface ReptileCardProps {
   reptile: Reptile;
@@ -27,7 +28,7 @@ export const ReptileCard: FC<ReptileCardProps> = (props) => {
     >
       <CardContent>
         <Typography color="text.secondary" gutterBottom>
-          {reptile.species}
+          {readableSpecies(reptile.species)}
         </Typography>
         <Typography variant="h5" component="div">
           {reptile.name}

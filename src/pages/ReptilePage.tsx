@@ -1,4 +1,4 @@
-import { Container, TextField } from "@mui/material";
+import { Container, IconButton, TextField } from "@mui/material";
 import { FC, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Reptile } from "../api/models";
@@ -42,12 +42,11 @@ export const ReptilePage: FC = () => {
 
   return (
     <Container maxWidth="md">
-      <HeaderTitle title={reptile.name} />
-      <TextField
-        onChange={(e) => editReptile("name", e.target.value)}
-        value={editedReptile?.name || reptile.name}
-        label="Name"
-      />
+      <HeaderTitle title={reptile.name}>
+        <IconButton>
+          
+        </IconButton>
+      </HeaderTitle>
     </Container>
   );
 };

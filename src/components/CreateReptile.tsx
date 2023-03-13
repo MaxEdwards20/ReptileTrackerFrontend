@@ -17,6 +17,7 @@ import {
 import { FC, useContext, useState } from "react";
 import { SexType, SpeciesType } from "../api/apiTypes";
 import { AuthContext } from "../context/AuthContext";
+import { readableSpecies } from "../utils/miscFunctions";
 
 type CreateReptileProps = {
   refreshReptileList: () => void;
@@ -98,10 +99,18 @@ export const CreateReptile: FC<CreateReptileProps> = (props) => {
                   label="Species"
                   onChange={(e) => setSpecies(e.target.value as SpeciesType)}
                 >
-                  <MenuItem value={"ball_python"}>Ball Python</MenuItem>
-                  <MenuItem value={"king_snake"}>King Snake</MenuItem>
-                  <MenuItem value={"corn_snake"}>Corn Snake</MenuItem>
-                  <MenuItem value={"redtail_boa"}>Redtail Boa</MenuItem>
+                  <MenuItem value={"ball_python"}>
+                    {readableSpecies("ball_python")}
+                  </MenuItem>
+                  <MenuItem value={"king_snake"}>
+                    {readableSpecies("king_snake")}
+                  </MenuItem>
+                  <MenuItem value={"corn_snake"}>
+                    {readableSpecies("corn_snake")}
+                  </MenuItem>
+                  <MenuItem value={"redtail_boa"}>
+                    {readableSpecies("redtail_boa")}
+                  </MenuItem>
                 </Select>
               </FormControl>
             </Stack>
