@@ -6,7 +6,7 @@ import { ErrorMessage } from "../components/ErrorMessage";
 import { HeaderTitle } from "../components/HeaderTitle";
 import { Spinner } from "../components/Spinner";
 import { AuthContext } from "../context/AuthContext";
-
+import { CreateSchedule } from "../components/CreateSchedules";
 export const ReptilePage: FC = () => {
   const { id: reptileId } = useParams();
   const { api } = useContext(AuthContext);
@@ -43,6 +43,11 @@ export const ReptilePage: FC = () => {
   return (
     <Container maxWidth="md">
       <HeaderTitle title={reptile.name} />
+      <CreateSchedule
+        reptileID={reptile.id}
+        refreshScheduleList={fetchReptile}
+      />
+
       <TextField
         onChange={(e) => editReptile("name", e.target.value)}
         value={editedReptile?.name || reptile.name}

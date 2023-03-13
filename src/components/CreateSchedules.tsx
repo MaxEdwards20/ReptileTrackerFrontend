@@ -12,10 +12,12 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
+  Typography,
 } from "@mui/material";
 
 type CreateScheduleProps = {
   refreshScheduleList: () => void;
+  reptileID: number;
 };
 const scheduleType: ScheduleType = "feed";
 
@@ -32,10 +34,8 @@ const initialSchedule: CreateScheduleBody = {
 };
 
 export const CreateSchedule = (props: CreateScheduleProps) => {
-  const { refreshScheduleList } = props;
+  const { refreshScheduleList, reptileID } = props;
   const [schedule, setSchedule] = useState<CreateScheduleBody>(initialSchedule);
-  const [reptileID, setReptileID] = useState("");
-  const [reptiles, setReptiles] = useState<Reptile[]>([]);
   const { api } = useContext(AuthContext);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,143 +54,116 @@ export const CreateSchedule = (props: CreateScheduleProps) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    api.createSchedule(schedule, parseInt(reptileID)).then(() => {
+    api.createSchedule(schedule, reptileID).then((res) => {
       refreshScheduleList();
       handleClose();
     });
   };
 
-  const getReptiles = () => {
-    api.getReptiles().then((reptiles) => {
-      console.log("USer reptiles: ", reptiles);
-      setReptiles(reptiles);
-    });
-  };
-
-  useEffect(() => {
-    getReptiles();
-  }, []);
-
-  const reptileOptionSelection = () => {
-    const reptileOptions = reptiles.map((reptile) => {
-      return (
-        <MenuItem key={reptile.id} value={reptile.id}>
-          {reptile.name}
-        </MenuItem>
-      );
-    });
-    return (
-      <FormControl>
-        <InputLabel>Reptile</InputLabel>
-        <Select
-          value={reptileID.toString()}
-          onChange={(e) => {
-            setReptileID(e.target.value as string);
-          }}
-        >
-          {reptileOptions}
-        </Select>
-      </FormControl>
-    );
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
-      <FormControl>
-        <InputLabel>Type</InputLabel>
-        <Select
-          name="type"
-          value={schedule.type}
-          onChange={(e) => {
-            setSchedule({ ...schedule, type: e.target.value as ScheduleType });
-          }}
-        >
-          <MenuItem value="feed">Feed</MenuItem>
-          <MenuItem value="record">Record</MenuItem>
-          <MenuItem value="clean">Clean</MenuItem>
-        </Select>
-      </FormControl>
-      {reptileOptionSelection()}
+    <>
+      <Typography variant="h5" paddingTop={4} paddingBottom={4}>
+        Create a Schedule
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <FormControl>
+          <InputLabel>Type</InputLabel>
+          <Select
+            name="type"
+            value={schedule.type}
+            onChange={(e) => {
+              setSchedule({
+                ...schedule,
+                type: e.target.value as ScheduleType,
+              });
+            }}
+          >
+            <MenuItem value="feed">Feed</MenuItem>
+            <MenuItem value="record">Record</MenuItem>
+            <MenuItem value="clean">Clean</MenuItem>
+          </Select>
+        </FormControl>
 
-      <TextField
-        name="description"
-        label="Description"
-        value={schedule.description}
-        onChange={handleInputChange}
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            name="monday"
-            checked={schedule.monday}
-            onChange={handleCheckboxChange}
-          />
-        }
-        label="Monday"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            name="tuesday"
-            checked={schedule.tuesday}
-            onChange={handleCheckboxChange}
-          />
-        }
-        label="Tuesday"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            name="wednesday"
-            checked={schedule.wednesday}
-            onChange={handleCheckboxChange}
-          />
-        }
-        label="Wednesday"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            name="thursday"
-            checked={schedule.thursday}
-            onChange={handleCheckboxChange}
-          />
-        }
-        label="Thursday"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            name="friday"
-            checked={schedule.friday}
-            onChange={handleCheckboxChange}
-          />
-        }
-        label="Friday"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            name="saturday"
-            checked={schedule.saturday}
-            onChange={handleCheckboxChange}
-          />
-        }
-        label="Saturday"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            name="sunday"
-            checked={schedule.sunday}
-            onChange={handleCheckboxChange}
-          />
-        }
-        label="Sunday"
-      />
-      <Button type="submit" variant="contained" color="primary">
-        Save
-      </Button>
-    </form>
+        <TextField
+          name="description"
+          label="Description"
+          value={schedule.description}
+          onChange={handleInputChange}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="monday"
+              checked={schedule.monday}
+              onChange={handleCheckboxChange}
+            />
+          }
+          label="Monday"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="tuesday"
+              checked={schedule.tuesday}
+              onChange={handleCheckboxChange}
+            />
+          }
+          label="Tuesday"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="wednesday"
+              checked={schedule.wednesday}
+              onChange={handleCheckboxChange}
+            />
+          }
+          label="Wednesday"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="thursday"
+              checked={schedule.thursday}
+              onChange={handleCheckboxChange}
+            />
+          }
+          label="Thursday"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="friday"
+              checked={schedule.friday}
+              onChange={handleCheckboxChange}
+            />
+          }
+          label="Friday"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="saturday"
+              checked={schedule.saturday}
+              onChange={handleCheckboxChange}
+            />
+          }
+          label="Saturday"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="sunday"
+              checked={schedule.sunday}
+              onChange={handleCheckboxChange}
+            />
+          }
+          label="Sunday"
+        />
+        <Button type="submit" variant="contained" color="primary">
+          Save
+        </Button>
+      </form>
+    </>
   );
 };
