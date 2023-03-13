@@ -14,13 +14,13 @@ export const ScehduleList = () => {
   const { api, user } = useContext(AuthContext);
   const [today, setToday] = useState(new Date().getDay());
   const days = [
-    "sunday",
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ];
 
   const fetchSchedules = () => {
@@ -29,7 +29,7 @@ export const ScehduleList = () => {
       .getSchedulesByUser(user.id)
       .then((schedules) => {
         const todaySchedules = schedules.filter((schedule) => {
-          schedule[days[today] as keyof typeof schedule];
+          schedule[days[today].toLowerCase() as keyof typeof schedule];
         });
         setSchedules(todaySchedules);
       })
