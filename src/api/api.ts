@@ -7,7 +7,7 @@ import {
 } from "./apiTypes";
 import { Reptile, User, Schedule } from "./models";
 
-type Method = "get" | "post" | "put" | "del";
+type Method = "get" | "post" | "put" | "delete";
 
 export class Api {
   private token = "";
@@ -53,7 +53,7 @@ export class Api {
   }
 
   del(path: string) {
-    return this.makeRequest(path, "del");
+    return this.makeRequest(path, "delete");
   }
 
   setToken(token: string) {
