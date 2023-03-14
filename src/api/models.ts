@@ -1,3 +1,5 @@
+import { SpeciesType } from "./apiTypes";
+
 type DateTime = string;
 
 export type User = {
@@ -15,7 +17,7 @@ export type Reptile = {
   id: number;
   user: User;
   userId: number;
-  species: string;
+  species: SpeciesType;
   name: string;
   sex: string;
   createdAt: DateTime;
@@ -60,6 +62,6 @@ export type Schedule = {
   friday: Boolean;
   saturday: Boolean;
   sunday: Boolean;
-  createdAt: DateTime;
-  updatedAt: DateTime;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
 };

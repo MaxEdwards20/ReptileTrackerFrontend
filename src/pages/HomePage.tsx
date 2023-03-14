@@ -8,11 +8,15 @@ import {
 } from "@mui/material";
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import { HeaderTitle } from "../components/HeaderTitle";
 
 export const HomePage: FC = () => {
   const navigate = useNavigate();
   return (
     <Container maxWidth="md">
+      <Typography variant="h1" sx={{ mb: 6 }} textAlign="center">
+        Reptile Tracker
+      </Typography>
       <Typography variant="h5">What is Reptile Tracker?</Typography>
       <Divider sx={{ my: 2 }} />
       <Typography>

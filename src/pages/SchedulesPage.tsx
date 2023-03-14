@@ -1,11 +1,10 @@
 import { Container } from "@mui/material";
-import React, { FC } from "react";
-import { RouterProviderProps } from "react-router-dom";
-export const SchedulesPage: FC = () => {
+import { ScheduleList } from "../components/ScheduleList";
+
+export const SchedulesPage = () => {
   return (
     <Container maxWidth="md">
-      <h1>Schedules</h1>
+      <ScheduleList />
     </Container>
   );
 };
-export default SchedulesPage;
