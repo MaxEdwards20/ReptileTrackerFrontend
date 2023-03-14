@@ -57,7 +57,7 @@ export const ReptilePage: FC = () => {
           Delete Reptile
         </Button>
         <CreateSchedule
-          reptileID={reptile.id}
+          initialReptileId={reptile.id}
           refreshScheduleList={fetchReptile}
         />
 

@@ -24,12 +24,15 @@ import { dayToUpperCased } from "../utils/miscFunctions";
 
 type CreateScheduleProps = {
   refreshScheduleList: () => void;
+  initialReptileId?: number;
 };
 
 export const CreateSchedule = (props: CreateScheduleProps) => {
-  const { refreshScheduleList } = props;
+  const { refreshScheduleList, initialReptileId } = props;
   const [schedule, setSchedule] = useState<CreateScheduleBody>(initialSchedule);
-  const [reptileID, setReptileID] = useState<number>();
+  const [reptileID, setReptileID] = useState<number | undefined>(
+    initialReptileId
+  );
   const [reptiles, setReptiles] = useState<Reptile[]>([]);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string>();
@@ -137,7 +140,7 @@ export const CreateSchedule = (props: CreateScheduleProps) => {
                   <MenuItem value="clean">Clean</MenuItem>
                 </Select>
               </FormControl>
-              {reptileOptionSelection()}
+              {!initialReptileId && reptileOptionSelection()}
             </Stack>
             <TextField
               fullWidth
