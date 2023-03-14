@@ -19,6 +19,7 @@ import { HeaderTitle } from "../components/HeaderTitle";
 import { Spinner } from "../components/Spinner";
 import { AuthContext } from "../context/AuthContext";
 import { CreateSchedule } from "../components/CreateSchedules";
+import { DeleteReptile } from "../components/DeleteReptile";
 export const ReptilePage: FC = () => {
   const navigate = useNavigate();
   const { id: reptileId } = useParams();
@@ -111,19 +112,6 @@ export const ReptilePage: FC = () => {
               <EditIcon />
             </IconButton>
           </HeaderTitle>
-          <Button onClick={() => deleteReptile()} color="error">
-            Delete Reptile
-          </Button>
-          <CreateSchedule
-            initialReptileId={reptile.id}
-            refreshScheduleList={fetchReptile}
-          />
-
-          <TextField
-            onChange={(e) => editReptile("name", e.target.value)}
-            value={editedReptile?.name || reptile.name}
-            label="Name"
-          />
         </>
       )}
       <HeaderTitle title="Feedings" secondary>
@@ -141,11 +129,12 @@ export const ReptilePage: FC = () => {
       <Typography>husbandry records:</Typography>
 
       <HeaderTitle title="Schedules" secondary>
-        <IconButton>
-          <AddIcon />
-        </IconButton>
+        <CreateSchedule
+          initialReptileId={reptile.id}
+          refreshScheduleList={fetchReptile}
+        />
       </HeaderTitle>
-      <Typography>schedules:</Typography>
+      <DeleteReptile handleDelete={deleteReptile} />
     </Container>
   );
 };
