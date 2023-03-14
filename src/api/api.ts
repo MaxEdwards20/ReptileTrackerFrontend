@@ -86,6 +86,10 @@ export class Api {
     return this.get("reptiles").then((res) => res.reptiles);
   }
 
+  deleteReptile(reptileId: number): Promise<Reptile> {
+    return this.del(`reptiles/${reptileId}`).then((res) => res.reptile);
+  }
+
   createReptile(rep: CreateReptileBody): Promise<Reptile> {
     return this.post("reptiles", rep).then((res) => res.reptile);
   }
