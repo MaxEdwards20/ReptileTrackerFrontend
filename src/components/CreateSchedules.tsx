@@ -12,31 +12,37 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Typography,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogActions,
+  Stack,
+  Alert,
 } from "@mui/material";
+import { daysList, initialSchedule } from "../utils/constants";
+import { dayToUpperCased } from "../utils/miscFunctions";
 
 type CreateScheduleProps = {
   refreshScheduleList: () => void;
-  reptileID: number;
-};
-const scheduleType: ScheduleType = "feed";
-
-const initialSchedule: CreateScheduleBody = {
-  type: scheduleType,
-  description: "",
-  monday: false,
-  tuesday: false,
-  wednesday: false,
-  thursday: false,
-  friday: false,
-  saturday: false,
-  sunday: false,
 };
 
 export const CreateSchedule = (props: CreateScheduleProps) => {
-  const { refreshScheduleList, reptileID } = props;
+  const { refreshScheduleList } = props;
   const [schedule, setSchedule] = useState<CreateScheduleBody>(initialSchedule);
+  const [reptileID, setReptileID] = useState<number>();
+  const [reptiles, setReptiles] = useState<Reptile[]>([]);
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string>();
   const { api } = useContext(AuthContext);
+
+  const validInput = (() => {
+    if (!schedule.type) return false;
+    if (!schedule.description) return false;
+    if (!reptileID) return false;
+    if (!daysList.some((day) => schedule[day as keyof CreateScheduleBody]))
+      return false;
+    return true;
+  })();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -49,121 +55,132 @@ export const CreateSchedule = (props: CreateScheduleProps) => {
   };
 
   const handleClose = () => {
+    setOpen(false);
+    setError(undefined);
     setSchedule(initialSchedule);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    api.createSchedule(schedule, reptileID).then((res) => {
+    setError(undefined);
+    if (!reptileID || !validInput) {
+      setError("Please fill out all fields");
+      return;
+    }
+    api.createSchedule(schedule, reptileID).then(() => {
       refreshScheduleList();
       handleClose();
     });
   };
 
+  const getReptiles = () => {
+    api.getReptiles().then((reptiles) => {
+      console.log("USer reptiles: ", reptiles);
+      setReptiles(reptiles);
+    });
+  };
+
+  useEffect(() => {
+    getReptiles();
+  }, []);
+
+  const reptileOptionSelection = () => {
+    const reptileOptions = reptiles.map((reptile) => {
+      return (
+        <MenuItem key={reptile.id} value={reptile.id}>
+          {reptile.name}
+        </MenuItem>
+      );
+    });
+    return (
+      <FormControl fullWidth>
+        <InputLabel>Reptile</InputLabel>
+        <Select
+          label="Reptile"
+          value={reptileID?.toString()}
+          onChange={(e) => {
+            setReptileID(parseInt(e.target.value));
+          }}
+        >
+          {reptileOptions}
+        </Select>
+      </FormControl>
+    );
+  };
+
   return (
     <>
-      <Typography variant="h5" paddingTop={4} paddingBottom={4}>
-        Create a Schedule
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <FormControl>
-          <InputLabel>Type</InputLabel>
-          <Select
-            name="type"
-            value={schedule.type}
-            onChange={(e) => {
-              setSchedule({
-                ...schedule,
-                type: e.target.value as ScheduleType,
-              });
-            }}
-          >
-            <MenuItem value="feed">Feed</MenuItem>
-            <MenuItem value="record">Record</MenuItem>
-            <MenuItem value="clean">Clean</MenuItem>
-          </Select>
-        </FormControl>
+      <Button variant="outlined" onClick={() => setOpen(true)}>
+        Create Schedule
+      </Button>
 
-        <TextField
-          name="description"
-          label="Description"
-          value={schedule.description}
-          onChange={handleInputChange}
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="monday"
-              checked={schedule.monday}
-              onChange={handleCheckboxChange}
+      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+        <DialogTitle>Create Schedule</DialogTitle>
+        <DialogContent>
+          <form onSubmit={handleSubmit}>
+            <Stack sx={{ py: 2 }} direction="row" spacing={2}>
+              <FormControl fullWidth>
+                <InputLabel>Type</InputLabel>
+                <Select
+                  label="Type"
+                  name="type"
+                  value={schedule.type}
+                  onChange={(e) => {
+                    setSchedule({
+                      ...schedule,
+                      type: e.target.value as ScheduleType,
+                    });
+                  }}
+                >
+                  <MenuItem value="feed">Feed</MenuItem>
+                  <MenuItem value="record">Record</MenuItem>
+                  <MenuItem value="clean">Clean</MenuItem>
+                </Select>
+              </FormControl>
+              {reptileOptionSelection()}
+            </Stack>
+            <TextField
+              fullWidth
+              multiline
+              minRows={3}
+              name="description"
+              label="Description"
+              value={schedule.description}
+              onChange={handleInputChange}
             />
-          }
-          label="Monday"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="tuesday"
-              checked={schedule.tuesday}
-              onChange={handleCheckboxChange}
-            />
-          }
-          label="Tuesday"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="wednesday"
-              checked={schedule.wednesday}
-              onChange={handleCheckboxChange}
-            />
-          }
-          label="Wednesday"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="thursday"
-              checked={schedule.thursday}
-              onChange={handleCheckboxChange}
-            />
-          }
-          label="Thursday"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="friday"
-              checked={schedule.friday}
-              onChange={handleCheckboxChange}
-            />
-          }
-          label="Friday"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="saturday"
-              checked={schedule.saturday}
-              onChange={handleCheckboxChange}
-            />
-          }
-          label="Saturday"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="sunday"
-              checked={schedule.sunday}
-              onChange={handleCheckboxChange}
-            />
-          }
-          label="Sunday"
-        />
-        <Button type="submit" variant="contained" color="primary">
-          Save
-        </Button>
-      </form>
+
+            <Stack direction="row" flexWrap={"wrap"}>
+              {daysList.map((day) => {
+                return (
+                  <FormControlLabel
+                    key={day}
+                    control={
+                      <Checkbox
+                        name={day}
+                        checked={!!schedule[day as keyof CreateScheduleBody]}
+                        onChange={handleCheckboxChange}
+                      />
+                    }
+                    label={dayToUpperCased(day)}
+                  />
+                );
+              })}
+            </Stack>
+            {error && (
+              <Alert sx={{ my: 2 }} severity="error">
+                {error}
+              </Alert>
+            )}
+
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button type="submit" variant="contained" color="primary">
+                Save
+              </Button>
+            </DialogActions>
+          </form>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

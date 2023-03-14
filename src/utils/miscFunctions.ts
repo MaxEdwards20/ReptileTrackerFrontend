@@ -9,3 +9,7 @@ export function getToken(): string | null {
 export function removeToken() {
   localStorage.removeItem("token");
 }
+
+export function dayToUpperCased(day: string) {
+  return day.charAt(0).toUpperCase() + day.slice(1);
+}

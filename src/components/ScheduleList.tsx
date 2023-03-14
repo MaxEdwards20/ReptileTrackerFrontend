@@ -7,78 +7,36 @@ import { CreateSchedule } from "./CreateSchedules";
 import { Spinner } from "./Spinner";
 import { ErrorMessage } from "./ErrorMessage";
 import { HeaderTitle } from "./HeaderTitle";
-import { Container } from "@mui/material";
+import { daysList } from "../utils/constants";
+import { dayToUpperCased } from "../utils/miscFunctions";
 
-export const ScehduleList = () => {
-  const [schedules, setSchedules] = useState<Schedule[] | undefined>();
+export const ScheduleList = () => {
+  const [schedules, setSchedules] = useState<Schedule[] | null>();
   const { api, user } = useContext(AuthContext);
-  const [today, setToday] = useState(new Date().getDay());
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
 
-  const checkIfToday = (schedule: Schedule): Boolean => {
-    switch (days[today]) {
-      case days[0]:
-        if (schedule.sunday) {
-          return true;
-        }
-      case days[1]:
-        if (schedule.monday) {
-          return true;
-        }
-        break;
-      case days[2]:
-        if (schedule.tuesday) {
-          return true;
-        }
-        break;
-      case days[3]:
-        if (schedule.wednesday) {
-          return true;
-        }
-        break;
-      case days[4]:
-        if (schedule.thursday) {
-          return true;
-        }
-        break;
-      case days[5]:
-        if (schedule.friday) {
-          return true;
-        }
-        break;
-      case days[6]:
-        if (schedule.saturday) {
-          return true;
-        }
-    }
-    return false;
-  };
+  const today = daysList[new Date().getDay()];
 
   const fetchSchedules = () => {
     setSchedules(undefined);
     api.getSchedulesByUser(user.id).then((schedules) => {
-      console.log("Schedules for user: ", schedules);
-      console.log("Today: ", days[today].toLowerCase());
       if (!schedules) return;
-      const todaySchedules = schedules.filter((schedule) => {
-        if (checkIfToday(schedule)) {
-          return schedule;
-        }
-      });
+      const todaySchedules = schedules.filter(
+        (schedule) => schedule[today as keyof Schedule]
+      );
       setSchedules(todaySchedules);
     });
+    api
+      .getSchedulesByUser(user.id)
+      .then((schedules) => {
+        const todaySchedules = schedules.filter(
+          (schedule) => schedule[today as keyof Schedule]
+        );
+        setSchedules(todaySchedules);
+      })
+      .catch(() => setSchedules(null));
   };
 
   useEffect(() => {
-    setToday(new Date().getDay());
     fetchSchedules();
   }, []);
 
@@ -86,14 +44,19 @@ export const ScehduleList = () => {
   if (schedules === null)
     return <ErrorMessage title="Error fetching reptiles" />;
   if (schedules.length === 0) {
-    return <Typography>You have no schedule for {days[today]}</Typography>;
+    return (
+      <Typography>You have no schedule for {dayToUpperCased(today)}</Typography>
+    );
   }
   return (
     <>
+      <HeaderTitle title="My Schedules">
+        <CreateSchedule refreshScheduleList={fetchSchedules} />
+      </HeaderTitle>
       <HeaderTitle
-        title={`My Schedules for ${days[today]}`}
+        title={`My Schedules for ${dayToUpperCased(today)}`}
         secondary
-      ></HeaderTitle>
+      />
 
       <Grid container spacing={4} paddingTop={10}>
         {schedules.map((schedule) => (

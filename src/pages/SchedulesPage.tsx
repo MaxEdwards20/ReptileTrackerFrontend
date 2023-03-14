@@ -1,5 +1,10 @@
-import { ScehduleList } from "../components/ScheduleList";
+import { Container } from "@mui/material";
+import { ScheduleList } from "../components/ScheduleList";
 
 export const SchedulesPage = () => {
-  return <ScehduleList />;
+  return (
+    <Container maxWidth="md">
+      <ScheduleList />
+    </Container>
+  );
 };

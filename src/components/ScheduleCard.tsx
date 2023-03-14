@@ -8,6 +8,7 @@ import {
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Schedule } from "../api/models";
+import { daysList } from "../utils/constants";
 
 interface ScheduleCardProps {
   schedule: Schedule;
@@ -18,17 +19,8 @@ export const ScheduleCard: FC<ScheduleCardProps> = (
 ) => {
   const navigate = useNavigate();
   const { schedule } = props;
-  const days = [
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
-  ];
-  const selectedDays = days.filter(
-    (day) => schedule[day as keyof typeof schedule]
+  const selectedDays = daysList.filter(
+    (day) => schedule[day as keyof Schedule]
   );
 
   return (
