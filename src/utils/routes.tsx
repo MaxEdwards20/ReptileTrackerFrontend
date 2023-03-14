@@ -5,34 +5,38 @@ import { DashboardPage } from "../pages/DashboardPage";
 import HomePage from "../pages/HomePage";
 import ProfilePage from "../pages/ProfilePage";
 import { ReptilePage } from "../pages/ReptilePage";
-import SchedulesPage from "../pages/SchedulesPage";
+import { SchedulePage } from "../pages/SchedulePage";
+import { SchedulesPage } from "../pages/SchedulesPage";
 import SignIn from "../pages/SignIn";
 
 type RoutePath =
   | "home"
   | "dashboard"
-  | "schedules"
   | "profile"
   | "reptile/:id"
+  | "schedule/:id"
   | "sign-in"
-  | "create-account";
+  | "create-account"
+  | "schedules";
 
 const pathPageMap: Record<RoutePath, JSX.Element> = {
   home: <HomePage />,
   dashboard: <DashboardPage />,
-  schedules: <SchedulesPage />,
   profile: <ProfilePage />,
   "reptile/:id": <ReptilePage />,
+  "schedule/:id": <SchedulePage />,
   "sign-in": <SignIn />,
   "create-account": <CreateAccount />,
+  schedules: <SchedulesPage />,
 };
 
 export const unAuthRoutes: RoutePath[] = ["home", "sign-in", "create-account"];
 export const authRoutes: RoutePath[] = [
-  "schedules",
   "dashboard",
   "reptile/:id",
+  "schedule/:id",
   "profile",
+  "schedules",
 ];
 
 export const authRouter = createBrowserRouter([

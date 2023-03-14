@@ -12,14 +12,15 @@ import {
   Typography,
 } from "@mui/material";
 import { FC, useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Reptile } from "../api/models";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { HeaderTitle } from "../components/HeaderTitle";
 import { Spinner } from "../components/Spinner";
 import { AuthContext } from "../context/AuthContext";
-
+import { CreateSchedule } from "../components/CreateSchedules";
 export const ReptilePage: FC = () => {
+  const navigate = useNavigate();
   const { id: reptileId } = useParams();
   const { api } = useContext(AuthContext);
   if (!reptileId) return <ErrorMessage title="Error fetching reptile" />;
@@ -60,6 +61,13 @@ export const ReptilePage: FC = () => {
       });
   };
 
+  const deleteReptile = () => {
+    if (!reptile) return;
+    api.deleteReptile(reptile.id).then(() => {
+      navigate("/dashboard");
+    });
+  };
+
   useEffect(() => {
     fetchReptile();
   }, [reptileId]);
@@ -97,11 +105,26 @@ export const ReptilePage: FC = () => {
           />
         </>
       ) : (
-        <HeaderTitle title={reptile.name}>
-          <IconButton onClick={() => setEditingName(true)}>
-            <EditIcon />
-          </IconButton>
-        </HeaderTitle>
+        <>
+          <HeaderTitle title={reptile.name}>
+            <IconButton onClick={() => setEditingName(true)}>
+              <EditIcon />
+            </IconButton>
+          </HeaderTitle>
+          <Button onClick={() => deleteReptile()} color="error">
+            Delete Reptile
+          </Button>
+          <CreateSchedule
+            initialReptileId={reptile.id}
+            refreshScheduleList={fetchReptile}
+          />
+
+          <TextField
+            onChange={(e) => editReptile("name", e.target.value)}
+            value={editedReptile?.name || reptile.name}
+            label="Name"
+          />
+        </>
       )}
       <HeaderTitle title="Feedings" secondary>
         <IconButton>

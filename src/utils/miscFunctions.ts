@@ -23,3 +23,6 @@ const readableSpeciesMap: Record<SpeciesType, string> = {
 export function readableSpecies(type: SpeciesType) {
   return readableSpeciesMap[type];
 }
+export function dayToUpperCased(day: string) {
+  return day.charAt(0).toUpperCase() + day.slice(1);
+}

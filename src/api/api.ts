@@ -1,13 +1,14 @@
 import { getToken, setTokenToLocalStorage } from "../utils/miscFunctions";
 import {
   CreateReptileBody,
+  UpdateReptileBody,
+  CreateScheduleBody,
   CreateUserBody,
   LoginBody,
-  UpdateReptileBody,
 } from "./apiTypes";
-import { Reptile, User } from "./models";
+import { Reptile, User, Schedule } from "./models";
 
-type Method = "get" | "post" | "put" | "del";
+type Method = "get" | "post" | "put" | "delete";
 
 export class Api {
   private token = "";
@@ -53,7 +54,7 @@ export class Api {
   }
 
   del(path: string) {
-    return this.makeRequest(path, "del");
+    return this.makeRequest(path, "delete");
   }
 
   setToken(token: string) {
@@ -86,6 +87,10 @@ export class Api {
     return this.get("reptiles").then((res) => res.reptiles);
   }
 
+  deleteReptile(reptileId: number): Promise<Reptile> {
+    return this.del(`reptiles/${reptileId}`).then((res) => res.reptile);
+  }
+
   createReptile(rep: CreateReptileBody): Promise<Reptile> {
     return this.post("reptiles", rep).then((res) => res.reptile);
   }
@@ -94,5 +99,19 @@ export class Api {
   }
   getReptile(reptileId: number): Promise<Reptile> {
     return this.get(`reptiles/${reptileId}`).then((res) => res.reptile);
+  }
+  createSchedule(
+    rep: CreateScheduleBody,
+    reptileId: number
+  ): Promise<Schedule> {
+    return this.post(`schedules/${reptileId}`, rep).then((res) => res.schedule);
+  }
+
+  getSchedulesByReptile(reptileId: number): Promise<Schedule[]> {
+    return this.get(`schedules/${reptileId}`).then((res) => res.schedules);
+  }
+
+  getSchedulesByUser(userID: number): Promise<Schedule[]> {
+    return this.get(`schedules/user/${userID}`).then((res) => res.schedules);
   }
 }

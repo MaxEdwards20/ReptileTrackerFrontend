@@ -62,6 +62,6 @@ export type Schedule = {
   friday: Boolean;
   saturday: Boolean;
   sunday: Boolean;
-  createdAt: DateTime;
-  updatedAt: DateTime;
+  createdAt?: DateTime;
+  updatedAt?: DateTime;
 };
